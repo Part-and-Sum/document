@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Warehouse Architecture</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        .legend {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legend-box {
+            width: 30px;
+            height: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Data Warehouse Architecture</h1>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background: #e3f2fd; border: 2px solid #1976d2;"></div>
+                <span>Bronze Layer (Raw Data)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: #f3e5f5; border: 2px solid #7b1fa2;"></div>
+                <span>Staging Layer</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: #e8f5e9; border: 2px solid #388e3c;"></div>
+                <span>Intermediate Layer</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: #fff3e0; border: 2px solid #f57c00;"></div>
+                <span>Mart Layer</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: #fce4ec; border: 2px solid #c2185b;"></div>
+                <span>Client Tables</span>
+            </div>
+        </div>
+
+        <svg width="1320" height="1600" viewBox="0 0 1320 1600" xmlns="http://www.w3.org/2000/svg">
+            <!-- Bronze Layer -->
+            <g id="bronze-layer">
+                <rect x="10" y="10" width="1300" height="150" rx="8" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                <text x="660" y="40" text-anchor="middle" font-size="18" font-weight="bold" fill="#1976d2">BRONZE LAYER</text>
+                <rect x="460" y="70" width="400" height="60" rx="6" fill="white" stroke="#1976d2" stroke-width="2"/>
+                <text x="660" y="105" text-anchor="middle" font-size="14" fill="#333">Raw Platform Tables</text>
+                <text x="660" y="120" text-anchor="middle" font-size="12" fill="#666">(e.g., google_ads_2025.ads_Campaign)</text>
+            </g>
+
+            <!-- Arrows from Bronze to Staging -->
+            <path d="M 660 160 L 660 200" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Staging Layer -->
+            <g id="staging-layer">
+                <rect x="10" y="200" width="1300" height="200" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="660" y="230" text-anchor="middle" font-size="18" font-weight="bold" fill="#7b1fa2">STAGING LAYER</text>
+                
+                <!-- Staging models -->
+                <rect x="50" y="260" width="200" height="50" rx="6" fill="white" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="150" y="290" text-anchor="middle" font-size="12" fill="#333">stg_platform__accounts</text>
+                
+                <rect x="280" y="260" width="200" height="50" rx="6" fill="white" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="380" y="290" text-anchor="middle" font-size="12" fill="#333">stg_platform__campaigns</text>
+                
+                <rect x="510" y="260" width="200" height="50" rx="6" fill="white" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="610" y="290" text-anchor="middle" font-size="12" fill="#333">stg_platform__ad_groups</text>
+                
+                <rect x="740" y="260" width="200" height="50" rx="6" fill="white" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="840" y="290" text-anchor="middle" font-size="12" fill="#333">stg_platform__ads</text>
+                
+                <rect x="970" y="260" width="200" height="50" rx="6" fill="white" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="1070" y="290" text-anchor="middle" font-size="12" fill="#333">stg_platform__stats</text>
+                
+                <rect x="280" y="330" width="200" height="50" rx="6" fill="white" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="380" y="360" text-anchor="middle" font-size="12" fill="#333">stg_platform__keywords</text>
+                
+                <rect x="510" y="330" width="200" height="50" rx="6" fill="white" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="610" y="360" text-anchor="middle" font-size="12" fill="#333">stg_platform__geo</text>
+                
+                <rect x="740" y="330" width="200" height="50" rx="6" fill="white" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="840" y="360" text-anchor="middle" font-size="12" fill="#333">stg_platform__creatives</text>
+            </g>
+
+            <!-- Arrows from Staging to Intermediate -->
+            <path d="M 660 400 L 660 440" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Intermediate Layer -->
+            <g id="intermediate-layer">
+                <rect x="10" y="440" width="1300" height="280" rx="8" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                <text x="660" y="470" text-anchor="middle" font-size="18" font-weight="bold" fill="#388e3c">INTERMEDIATE LAYER (Silver)</text>
+                
+                <!-- Intermediate models -->
+                <rect x="50" y="500" width="240" height="50" rx="6" fill="white" stroke="#388e3c" stroke-width="2"/>
+                <text x="170" y="530" text-anchor="middle" font-size="12" fill="#333">platform__account_report</text>
+                
+                <rect x="320" y="500" width="240" height="50" rx="6" fill="white" stroke="#388e3c" stroke-width="2"/>
+                <text x="440" y="530" text-anchor="middle" font-size="12" fill="#333">platform__campaign_report</text>
+                
+                <rect x="590" y="500" width="240" height="50" rx="6" fill="white" stroke="#388e3c" stroke-width="2"/>
+                <text x="710" y="530" text-anchor="middle" font-size="12" fill="#333">platform__ad_group_report</text>
+                
+                <rect x="860" y="500" width="240" height="50" rx="6" fill="white" stroke="#388e3c" stroke-width="2"/>
+                <text x="980" y="530" text-anchor="middle" font-size="12" fill="#333">platform__ad_report</text>
+                
+                <rect x="50" y="570" width="240" height="50" rx="6" fill="white" stroke="#388e3c" stroke-width="2"/>
+                <text x="170" y="600" text-anchor="middle" font-size="12" fill="#333">platform__keyword_report</text>
+                
+                <rect x="320" y="570" width="240" height="50" rx="6" fill="white" stroke="#388e3c" stroke-width="2"/>
+                <text x="440" y="600" text-anchor="middle" font-size="12" fill="#333">platform__geo_report</text>
+                
+                <rect x="590" y="570" width="240" height="50" rx="6" fill="white" stroke="#388e3c" stroke-width="2"/>
+                <text x="710" y="600" text-anchor="middle" font-size="12" fill="#333">platform__device_report</text>
+                
+                <rect x="860" y="570" width="240" height="50" rx="6" fill="white" stroke="#388e3c" stroke-width="2"/>
+                <text x="980" y="600" text-anchor="middle" font-size="12" fill="#333">platform__url_report</text>
+                
+                <!-- Mapping table -->
+                <rect x="480" y="650" width="360" height="50" rx="6" fill="#ffecb3" stroke="#ffa000" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="660" y="680" text-anchor="middle" font-size="12" fill="#333">mapping.mapping (Client Mapping)</text>
+            </g>
+
+            <!-- Arrows from Intermediate to Mart -->
+            <path d="M 660 720 L 660 760" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Mart Layer -->
+            <g id="mart-layer">
+                <rect x="10" y="760" width="1300" height="280" rx="8" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                <text x="660" y="790" text-anchor="middle" font-size="18" font-weight="bold" fill="#f57c00">MART LAYER (Unified Cross-Platform)</text>
+                
+                <!-- Mart models -->
+                <rect x="80" y="820" width="220" height="50" rx="6" fill="white" stroke="#f57c00" stroke-width="2"/>
+                <text x="190" y="850" text-anchor="middle" font-size="12" fill="#333">account_unified_stats</text>
+                
+                <rect x="330" y="820" width="220" height="50" rx="6" fill="white" stroke="#f57c00" stroke-width="2"/>
+                <text x="440" y="850" text-anchor="middle" font-size="12" fill="#333">campaign_unified_stats</text>
+                
+                <rect x="580" y="820" width="220" height="50" rx="6" fill="white" stroke="#f57c00" stroke-width="2"/>
+                <text x="690" y="850" text-anchor="middle" font-size="12" fill="#333">ad_group_unified_stats</text>
+                
+                <rect x="830" y="820" width="220" height="50" rx="6" fill="white" stroke="#f57c00" stroke-width="2"/>
+                <text x="940" y="850" text-anchor="middle" font-size="12" fill="#333">ad_unified_stats</text>
+                
+                <rect x="80" y="890" width="220" height="50" rx="6" fill="white" stroke="#f57c00" stroke-width="2"/>
+                <text x="190" y="920" text-anchor="middle" font-size="12" fill="#333">keyword_unified_stats</text>
+                
+                <rect x="330" y="890" width="220" height="50" rx="6" fill="white" stroke="#f57c00" stroke-width="2"/>
+                <text x="440" y="920" text-anchor="middle" font-size="12" fill="#333">geo_unified_stats</text>
+                
+                <rect x="580" y="890" width="220" height="50" rx="6" fill="white" stroke="#f57c00" stroke-width="2"/>
+                <text x="690" y="920" text-anchor="middle" font-size="12" fill="#333">device_unified_stats</text>
+                
+                <!-- Platform badges -->
+                <g transform="translate(880, 890)">
+                    <rect width="180" height="120" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="1"/>
+                    <text x="90" y="20" text-anchor="middle" font-size="11" font-weight="bold" fill="#666">Platforms:</text>
+                    <text x="90" y="40" text-anchor="middle" font-size="10" fill="#666">Google Ads</text>
+                    <text x="90" y="55" text-anchor="middle" font-size="10" fill="#666">Facebook/Meta</text>
+                    <text x="90" y="70" text-anchor="middle" font-size="10" fill="#666">LinkedIn</text>
+                    <text x="90" y="85" text-anchor="middle" font-size="10" fill="#666">Pinterest</text>
+                    <text x="90" y="100" text-anchor="middle" font-size="10" fill="#666">Bing • TikTok • StackAdapt</text>
+                </g>
+            </g>
+
+            <!-- Arrows from Mart to Client -->
+            <path d="M 660 1040 L 660 1080" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Client Tables -->
+            <g id="client-layer">
+                <rect x="10" y="1080" width="1300" height="200" rx="8" fill="#fce4ec" stroke="#c2185b" stroke-width="2"/>
+                <text x="660" y="1110" text-anchor="middle" font-size="18" font-weight="bold" fill="#c2185b">CLIENT-SPECIFIC TABLES</text>
+                
+                <!-- Client tables -->
+                <rect x="180" y="1140" width="240" height="50" rx="6" fill="white" stroke="#c2185b" stroke-width="2"/>
+                <text x="300" y="1170" text-anchor="middle" font-size="12" fill="#333">client_id_account_report</text>
+                
+                <rect x="450" y="1140" width="240" height="50" rx="6" fill="white" stroke="#c2185b" stroke-width="2"/>
+                <text x="570" y="1170" text-anchor="middle" font-size="12" fill="#333">client_id_campaign_report</text>
+                
+                <rect x="720" y="1140" width="240" height="50" rx="6" fill="white" stroke="#c2185b" stroke-width="2"/>
+                <text x="840" y="1170" text-anchor="middle" font-size="12" fill="#333">client_id_ad_group_report</text>
+                
+                <text x="660" y="1220" text-anchor="middle" font-size="12" fill="#666" font-style="italic">(One table per client per report type)</text>
+            </g>
+
+            <!-- Example Flow -->
+            <g id="example-flow" transform="translate(10, 1320)">
+                <rect x="0" y="0" width="1300" height="250" rx="8" fill="#f5f5f5" stroke="#999" stroke-width="1"/>
+                <text x="650" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Example: Google Ads Campaign Data Flow</text>
+                
+                <rect x="50" y="50" width="200" height="40" rx="4" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+                <text x="150" y="75" text-anchor="middle" font-size="10" fill="#333">ads_CampaignBasicStats</text>
+                
+                <path d="M 250 70 L 290 70" stroke="#666" stroke-width="1" marker-end="url(#arrowhead-small)"/>
+                
+                <rect x="290" y="50" width="200" height="40" rx="4" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1"/>
+                <text x="390" y="75" text-anchor="middle" font-size="10" fill="#333">stg_google_ads_campaign</text>
+                
+                <path d="M 490 70 L 530 70" stroke="#666" stroke-width="1" marker-end="url(#arrowhead-small)"/>
+                
+                <rect x="530" y="50" width="200" height="40" rx="4" fill="#e8f5e9" stroke="#388e3c" stroke-width="1"/>
+                <text x="630" y="75" text-anchor="middle" font-size="10" fill="#333">google_ads__campaign_report</text>
+                
+                <path d="M 730 70 L 770 70" stroke="#666" stroke-width="1" marker-end="url(#arrowhead-small)"/>
+                
+                <rect x="770" y="50" width="200" height="40" rx="4" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+                <text x="870" y="75" text-anchor="middle" font-size="10" fill="#333">campaign_unified_stats</text>
+                
+                <path d="M 970 70 L 1010 70" stroke="#666" stroke-width="1" marker-end="url(#arrowhead-small)"/>
+                
+                <rect x="1010" y="50" width="200" height="40" rx="4" fill="#fce4ec" stroke="#c2185b" stroke-width="1"/>
+                <text x="1110" y="75" text-anchor="middle" font-size="10" fill="#333">ABC123_campaign_report</text>
+                
+                <!-- Scripts -->
+                <rect x="150" y="120" width="400" height="100" rx="4" fill="white" stroke="#666" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="350" y="140" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Python Scripts (Client Tables)</text>
+                <text x="350" y="160" text-anchor="middle" font-size="10" fill="#666">scripts/prod/campaign_stats_client.py</text>
+                <text x="350" y="175" text-anchor="middle" font-size="10" fill="#666">Creates individual tables for each client_id</text>
+                <text x="350" y="190" text-anchor="middle" font-size="10" fill="#666">Runs after unified models are complete</text>
+                
+                <!-- DAG -->
+                <rect x="600" y="120" width="400" height="100" rx="4" fill="white" stroke="#666" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="800" y="140" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Airflow Orchestration</text>
+                <text x="800" y="160" text-anchor="middle" font-size="10" fill="#666">1. Clone GitHub Repository</text>
+                <text x="800" y="175" text-anchor="middle" font-size="10" fill="#666">2. Run dbt models (staging → intermediate → mart)</text>
+                <text x="800" y="190" text-anchor="middle" font-size="10" fill="#666">3. Execute client table scripts</text>
+                <text x="800" y="205" text-anchor="middle" font-size="10" fill="#666">4. Cleanup sensitive files</text>
+            </g>
+
+            <!-- Arrow markers -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                </marker>
+                <marker id="arrowhead-small" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                    <polygon points="0 0, 8 3, 0 6" fill="#666"/>
+                </marker>
+            </defs>
+        </svg>
+    </div>
+</body>
+</html>
