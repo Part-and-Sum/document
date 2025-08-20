@@ -1,0 +1,1 @@
+select distinct advertiser_name, advertiser_id from `ps-silver-gold`.`silver_pinterest_ads_dev`.`pinterest_ads__advertiser_report`

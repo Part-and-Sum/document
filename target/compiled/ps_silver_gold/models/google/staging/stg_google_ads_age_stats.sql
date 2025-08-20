@@ -1,0 +1,73 @@
+WITH base AS (
+    SELECT
+        ad_group_criterion_criterion_id,
+        ad_group_id,
+        campaign_id,
+        customer_id,
+        ad_group_base_ad_group,
+        campaign_base_campaign,
+        metrics_active_view_impressions,
+        metrics_active_view_measurability,
+        metrics_active_view_measurable_cost_micros,
+        metrics_active_view_measurable_impressions,
+        metrics_active_view_viewability,
+        metrics_all_conversions,
+        metrics_all_conversions_value,
+        metrics_clicks,
+        metrics_conversions,
+        metrics_conversions_value,
+        metrics_cost_micros,
+        metrics_cross_device_conversions,
+        metrics_impressions,
+        metrics_interaction_event_types,
+        metrics_interactions,
+        metrics_view_through_conversions,
+        segments_ad_network_type,
+        segments_date,
+        segments_device,
+        _LATEST_DATE,
+        _DATA_DATE
+    FROM
+        `secure-electron-279822.google_ads_2025.ads_AgeRangeBasicStats_8196795413`
+),
+blue_vine AS (
+    SELECT
+        ad_group_criterion_criterion_id,
+        ad_group_id,
+        campaign_id,
+        customer_id,
+        ad_group_base_ad_group,
+        campaign_base_campaign,
+        metrics_active_view_impressions,
+        metrics_active_view_measurability,
+        metrics_active_view_measurable_cost_micros,
+        metrics_active_view_measurable_impressions,
+        metrics_active_view_viewability,
+        metrics_all_conversions,
+        metrics_all_conversions_value,
+        metrics_clicks,
+        metrics_conversions,
+        metrics_conversions_value,
+        metrics_cost_micros,
+        metrics_cross_device_conversions,
+        metrics_impressions,
+        metrics_interaction_event_types,
+        metrics_interactions,
+        metrics_view_through_conversions,
+        segments_ad_network_type,
+        segments_date,
+        segments_device,
+        _LATEST_DATE,
+        _DATA_DATE
+    FROM
+        `secure-electron-279822.google_bluevine.ads_AgeRangeBasicStats_2828502255`
+)
+SELECT
+    *
+FROM
+    base
+UNION ALL
+SELECT
+    *
+FROM
+    blue_vine

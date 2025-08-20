@@ -1,0 +1,82 @@
+
+  
+    
+
+    create or replace table `ps-silver-gold`.`staging_google_ads_dev`.`stg_google_ads_ad_conversion_stas`
+      
+    
+    
+
+    OPTIONS()
+    as (
+      WITH base AS (
+    SELECT
+        *
+    FROM
+        `secure-electron-279822.google_ads_2025.ads_AdConversionStats_8196795413`
+),
+blue_vine AS (
+    SELECT
+        *
+    FROM
+        `secure-electron-279822.google_bluevine.ads_AdConversionStats_2828502255`
+)
+SELECT
+    ad_group_ad_ad_id,
+    ad_group_id,
+    campaign_id,
+    customer_id,
+    ad_group_ad_ad_group,
+    ad_group_base_ad_group,
+    campaign_base_campaign,
+    metrics_conversions,
+    metrics_conversions_value,
+    metrics_value_per_conversion,
+    segments_ad_network_type,
+    segments_click_type,
+    segments_conversion_action,
+    segments_conversion_action_category,
+    segments_conversion_action_name,
+    segments_date,
+    segments_day_of_week,
+    segments_device,
+    segments_month,
+    segments_quarter,
+    segments_slot,
+    segments_week,
+    segments_year,
+    _LATEST_DATE,
+    _DATA_DATE
+FROM
+    base
+UNION ALL
+SELECT
+    ad_group_ad_ad_id,
+    ad_group_id,
+    campaign_id,
+    customer_id,
+    ad_group_ad_ad_group,
+    ad_group_base_ad_group,
+    campaign_base_campaign,
+    metrics_conversions,
+    metrics_conversions_value,
+    metrics_value_per_conversion,
+    segments_ad_network_type,
+    segments_click_type,
+    segments_conversion_action,
+    segments_conversion_action_category,
+    segments_conversion_action_name,
+    segments_date,
+    segments_day_of_week,
+    segments_device,
+    segments_month,
+    segments_quarter,
+    segments_slot,
+    segments_week,
+    segments_year,
+    _LATEST_DATE,
+    _DATA_DATE
+FROM
+    blue_vine
+    );
+  

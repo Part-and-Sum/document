@@ -1,0 +1,51 @@
+with
+    base as (
+        select
+            *
+        from
+            `secure-electron-279822.google_ads_2025.ads_GeoStats_8196795413`
+    )
+select
+    campaign_id,
+    customer_id,
+    geographic_view_country_criterion_id,
+    campaign_status,
+    geographic_view_location_type,
+    metrics_all_conversions,
+    metrics_all_conversions_from_interactions_rate,
+    metrics_all_conversions_value,
+    metrics_average_cost,
+    metrics_average_cpc,
+    metrics_average_cpm,
+    metrics_average_cpv,
+    metrics_clicks,
+    metrics_conversions,
+    metrics_conversions_from_interactions_rate,
+    metrics_conversions_value,
+    metrics_cost_micros,
+    metrics_cost_per_all_conversions,
+    metrics_cost_per_conversion,
+    metrics_cross_device_conversions,
+    metrics_ctr,
+    metrics_impressions,
+    metrics_interaction_event_types,
+    metrics_interaction_rate,
+    metrics_interactions,
+    metrics_value_per_all_conversions,
+    metrics_value_per_conversion,
+    metrics_video_view_rate,
+    metrics_video_views,
+    metrics_view_through_conversions,
+    segments_ad_network_type,
+    segments_date,
+    segments_day_of_week,
+    segments_device,
+    segments_geo_target_most_specific_location,
+    segments_month,
+    segments_quarter,
+    segments_week,
+    segments_year,
+    _LATEST_DATE,
+    _DATA_DATE
+from
+    base

@@ -1,0 +1,96 @@
+
+  
+    
+
+    create or replace table `ps-silver-gold`.`staging_google_ads_dev`.`stg_google_ads_video_stats`
+      
+    
+    
+
+    OPTIONS()
+    as (
+      WITH base AS (
+    SELECT
+        *
+    FROM
+        `secure-electron-279822.google_ads_2025.ads_VideoNonClickStats_8196795413`
+),
+blue_vine AS (
+    SELECT
+        *
+    FROM
+        `secure-electron-279822.google_bluevine.ads_VideoNonClickStats_2828502255`
+)
+SELECT
+    ad_group_ad_ad_id,
+    ad_group_id,
+    campaign_id,
+    customer_id,
+    video_channel_id,
+    video_id,
+    ad_group_ad_status,
+    metrics_all_conversions,
+    metrics_all_conversions_from_interactions_rate,
+    metrics_all_conversions_value,
+    metrics_average_cpv,
+    metrics_cost_per_all_conversions,
+    metrics_cross_device_conversions,
+    metrics_engagement_rate,
+    metrics_engagements,
+    metrics_value_per_all_conversions,
+    metrics_video_quartile_p100_rate,
+    metrics_video_quartile_p25_rate,
+    metrics_video_quartile_p50_rate,
+    metrics_video_quartile_p75_rate,
+    metrics_video_view_rate,
+    metrics_video_views,
+    segments_ad_network_type,
+    segments_date,
+    segments_day_of_week,
+    segments_device,
+    segments_month,
+    segments_quarter,
+    segments_week,
+    segments_year,
+    _LATEST_DATE,
+    _DATA_DATE
+FROM
+    base
+UNION ALL
+SELECT
+    ad_group_ad_ad_id,
+    ad_group_id,
+    campaign_id,
+    customer_id,
+    video_channel_id,
+    video_id,
+    ad_group_ad_status,
+    metrics_all_conversions,
+    metrics_all_conversions_from_interactions_rate,
+    metrics_all_conversions_value,
+    metrics_average_cpv,
+    metrics_cost_per_all_conversions,
+    metrics_cross_device_conversions,
+    metrics_engagement_rate,
+    metrics_engagements,
+    metrics_value_per_all_conversions,
+    metrics_video_quartile_p100_rate,
+    metrics_video_quartile_p25_rate,
+    metrics_video_quartile_p50_rate,
+    metrics_video_quartile_p75_rate,
+    metrics_video_view_rate,
+    metrics_video_views,
+    segments_ad_network_type,
+    segments_date,
+    segments_day_of_week,
+    segments_device,
+    segments_month,
+    segments_quarter,
+    segments_week,
+    segments_year,
+    _LATEST_DATE,
+    _DATA_DATE
+FROM
+    blue_vine
+    );
+  

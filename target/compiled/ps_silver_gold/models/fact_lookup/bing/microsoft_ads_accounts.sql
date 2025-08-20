@@ -1,0 +1,1 @@
+select distinct account_name, account_id from `ps-silver-gold`.`silver_bing_ads_dev`.`microsoft_ads__account_report`

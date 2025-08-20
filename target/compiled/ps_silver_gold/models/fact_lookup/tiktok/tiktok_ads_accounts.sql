@@ -1,0 +1,1 @@
+select distinct advertiser_name, advertiser_id from `ps-silver-gold`.`silver_tiktok_ads_dev`.`tiktok_ads__advertiser_report`
